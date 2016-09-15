@@ -28,10 +28,13 @@ def video2frames(video, frame_prefix, ratio=1, detectBlobs=False):
         
         ### Remove noise ###
         frame = remove_noise(frame)
-       
+
+        ### Fill gaps ###
+        frame = fill_gap(frame)
+
         ### Detect blobs ###
         if detectBlobs:
-            blob_keypoints = detect_blobs(frame)
+            blob_keypoints = detect_blobs(frame, show=True)
             
             if blob_keypoints:
                 ### Rescale frames ###
@@ -51,7 +54,14 @@ def remove_noise(frame):
     """ Remove noise using morphological operation: erode, then diate."""
     ### Morphology: Opening ###
     kernel = np.ones((3,3),np.uint8)
-    frame = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel, iterations=2)
+    frame = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel, iterations=1)
+    return frame    
+    
+def fill_gap(frame):
+    """ Filling gaps using morphological operation: dilate, then erode."""
+    ### Morphology: Opening ###
+    kernel = np.ones((3,3),np.uint8)
+    frame = cv2.morphologyEx(frame, cv2.MORPH_CLOSE, kernel, iterations=5)
     return frame    
 
 def detect_blobs(frame, show=False):
