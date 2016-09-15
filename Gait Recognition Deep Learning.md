@@ -18,7 +18,7 @@ Then try:
 | [Southampton University](http://www.gait.ecs.soton.ac.uk/database/)| Yes |
 | [Centre for Biometrics & Security Research](http://www.cbsr.ia.ac.cn/english/Gait%20Databases.asp) | Yes |
 
-Database used in this example is from Technische Universität München.
+Database used in this example is from Technische Universität München, "Normal Walk".
 
 ### Image Pre-processing
 
