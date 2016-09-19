@@ -29,7 +29,7 @@ class Silhouette:
         max_index = np.argmax(areas)
         self.area = areas[max_index]
         cnt = self.contours[max_index]        
-        self.boundingRect = cv2.boundingRect(cnt); print(self.boundingRect)
+        self.boundingRect = cv2.boundingRect(cnt); #print(self.boundingRect)
         
         
         

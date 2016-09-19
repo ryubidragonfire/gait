@@ -20,13 +20,12 @@ def box_sillhouette(fname, show=False):
     ret,thresh = cv2.threshold(img_gray,200,255,cv2.THRESH_BINARY)
     img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
     #img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
-  
     
     ### If found controus, create a gait.Silhouette object, find the largest area, extract area, extract bounging rectangular ###
     if len(contours)>0:
         sil = gait.Silhouette(contours)
-        sil.findLargestSilhouette();     print(sil.area)
-        [x, y, w, h] = sil.boundingRect; print(x, y, w, h)
+        sil.findLargestSilhouette();     #print(sil.area)
+        [x, y, w, h] = sil.boundingRect; #print(x, y, w, h)
         
         if show:
             cv2.imshow("input image", img)
