@@ -10,57 +10,30 @@ import cv2
 import numpy as np
 
 def box_sillhouette(fname, show=False):
-    """ Put a rectangle box around the sillhouette. """
+    """ Put a rectangle box around the sillhouette with the largest area. """
     img = cv2.imread(fname, -1) # -1 : read as it is
-    cv2.imshow("img", img)  
-
-    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    cv2.imshow("img_gray", img_gray)
     
+    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     #img_cvuint8 = cv2.convertScaleAbs(img_gray); print(img_cvuint8.dtype)
-
 
     ret,thresh = cv2.threshold(img_gray,200,255,cv2.THRESH_BINARY)
     img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
-    #contours = cv2.findContours(thresh, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
+    #img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
     
+    # Find the index of the largest contour
     if len(contours)>0:
-        cnt = contours[0]
-        #print(type(cnt))
-        area = cv2.contourArea(cnt); print(area)
+        areas = [cv2.contourArea(c) for c in contours]
+        max_index = np.argmax(areas)
+        cnt=contours[max_index]        
         x,y,w,h = cv2.boundingRect(cnt); print(x, y, w, h)
         box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
-    
-        
-    #contours = cv2.findContours(img, mode=1, method=2)
-    #print(len(contours))    
-    
-    #cv2.imshow("contours[0]", contours[0])
-    #cv2.waitKey(0)
-    
-    #for i, c in enumerate(contours):
-        #area = cv2.contourArea(c); print(area)
-    
-    
-    #cnt = contours[0]; #print(cnt)
-    #area = cv2.contourArea(cnt); print(area)
-    #cont_img = cv2.drawContours(img, contours[0], -1, (0,255,0), 3)    
-    #cv2.imshow("cont_img", cont_img)
-    #area = cv2.contourArea(contours[0]); print(area)
-    
-    ######################
-    #x,y,w,h = cv2.boundingRect(cnt); print(x, y, w, h)
-    #box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
-    #contour_img = cv2.drawContours(img, cnt, -1, (0,255,0), 3)
-    
+  
     if show:                     
         # Show keypoints
         cv2.imshow("input image", img)
         cv2.imshow("box_img", box_img)
-        cv2.imshow("contours[0]", contours[0])
-        #cv2.imshow("img_cvt", img_cvt)
+        cv2.imshow("img_c", img_c)
         cv2.waitKey(0)
-    
     return
 
 def video2frames(video, frame_prefix, ratio=1, detectBlobs=False):
