@@ -8,6 +8,7 @@ from __future__ import print_function
 
 import cv2
 import numpy as np
+import gait
 
 def box_sillhouette(fname, show=False):
     """ Put a rectangle box around the sillhouette with the largest area. """
@@ -19,21 +20,40 @@ def box_sillhouette(fname, show=False):
     ret,thresh = cv2.threshold(img_gray,200,255,cv2.THRESH_BINARY)
     img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
     #img_c, contours, hierachy = cv2.findContours(thresh, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_SIMPLE)
-    
-    # Find the index of the largest contour
-    if len(contours)>0:
-        areas = [cv2.contourArea(c) for c in contours]
-        max_index = np.argmax(areas)
-        cnt=contours[max_index]        
-        x,y,w,h = cv2.boundingRect(cnt); print(x, y, w, h)
-        box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
   
-    if show:                     
-        # Show keypoints
-        cv2.imshow("input image", img)
-        cv2.imshow("box_img", box_img)
-        cv2.imshow("img_c", img_c)
-        cv2.waitKey(0)
+    
+    ### If found controus, create a gait.Silhouette object, find the largest area, extract area, extract bounging rectangular ###
+    if len(contours)>0:
+        sil = gait.Silhouette(contours)
+        sil.findLargestSilhouette();     print(sil.area)
+        [x, y, w, h] = sil.boundingRect; print(x, y, w, h)
+        
+        if show:
+            cv2.imshow("input image", img)
+            
+            box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
+            cv2.imshow("box_img", box_img)
+            
+            cv2.imshow("img_c", img_c)   
+            
+            cv2.waitKey(0)
+        
+        return sil
+    
+#    # Obsolute: Find the index of the largest contour
+#    if len(contours)>0:
+#        areas = [cv2.contourArea(c) for c in contours]
+#        max_index = np.argmax(areas)
+#        cnt=contours[max_index]        
+#        x,y,w,h = cv2.boundingRect(cnt); print(x, y, w, h)
+#        box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
+#  
+#    if show:                     
+#        # Show keypoints
+#        cv2.imshow("input image", img)
+#        cv2.imshow("box_img", box_img)
+#        cv2.imshow("img_c", img_c)
+#        cv2.waitKey(0)
     return
 
 def video2frames(video, frame_prefix, ratio=1, detectBlobs=False):
