@@ -13,7 +13,7 @@ import os
 def do_video2frames():
     file_avi = './data/normal_id001_1.avi'
     iu.video2frames(file_avi, file_avi[-18:-4]+'-', 0.25, detectBlobs=True)
-     return
+    return
     
 def do_box_sillouette():
     directory = './images/'

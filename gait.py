@@ -16,6 +16,7 @@ class Silhouette:
         self.contours = contours
         self.area = None
         self.boundingRect = None
+        self.findLargestSilhouette()
 
     def getLargestArea(self):
         return self.area
