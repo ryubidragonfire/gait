@@ -15,6 +15,7 @@ class Silhouette:
     
     def __init__(self, contours):
         self.min_area = 50
+        self.max_distance = 50
         self.contours = contours
         self.finalContour = None
         self.area = None
@@ -54,10 +55,15 @@ class Silhouette:
                 else:
                     centres.append(None) # TODO: check if this will work
                     
-            #apply condition for area: True if it is bigger than min_area
-            area_boolean = (np.array(areas)>self.min_area)
-            area_boolean_list = area_boolean.tolist()
-            true_list = [i for i, elem in enumerate(area_boolean_list, 0) if elem==True]
+            
+#            if len([c for c in centres if c is not None]) > 1: # need 2 points
+#                print(centres)
+#                distances = pdist(centres)
+
+#            #apply condition for area: True if it is bigger than min_area
+#            area_boolean = (np.array(areas)>self.min_area)
+#            area_boolean_list = area_boolean.tolist()
+#            true_list = [i for i, elem in enumerate(area_boolean_list, 0) if elem==True]
             
             # if > 1 large contours found, check distance of centres, if close enough, join contours as one contour
             if len(true_list) > 1:
@@ -65,6 +71,16 @@ class Silhouette:
                 
                 for i in range(len(true_list)):
                     centres_for_large_areas.append(centres[true_list[i]])
+                    
+                # find distance between points
+                distances = pdist(centres_for_large_areas)
+                
+                for d in distances:
+                    if d < self.max_distance:
+                        ?? self.finalContour = self.contour[]
+                        ?? how to get the correct index?
+                    
+                
                 #centres_for_large_areas = centres[area_boolean_list.index(True)]
             #extract centres for large area
             #centres_arr = np.array(centres)
@@ -96,7 +112,7 @@ class Silhouette:
             #moments = [cv2.moments(c) for c in self.contours]
             #for m in moments:
             #    centres.append((int(m['m10']/m['m00']), int(m['m01']/m['m00'])))
-                print('==================')
+            print('==================')
         return
         
     def join_contour(self):
