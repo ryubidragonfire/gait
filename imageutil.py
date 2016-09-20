@@ -24,12 +24,11 @@ def box_sillhouette(fname, show=False):
     ### If found controus, create a gait.Silhouette object, find the largest area, extract area, extract bounging rectangular ###
     if len(contours)>0:
         sil = gait.Silhouette(contours)
-        sil.findLargestSilhouette();     #print(sil.area)
-        [x, y, w, h] = sil.boundingRect; #print(x, y, w, h)
         
         if show:
             cv2.imshow("input image", img)
             
+            [x, y, w, h] = sil.boundingRect
             box_img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),5)
             cv2.imshow("box_img", box_img)
             
@@ -127,7 +126,7 @@ def detect_blobs(frame, show=False):
     
     # Filter by Area.
     params.filterByArea = True
-    params.minArea = 200
+    params.minArea = 200 # may change to a higher number 500
     params.maxArea = 10000
      
     # Filter by Circularity

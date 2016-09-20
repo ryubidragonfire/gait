@@ -24,7 +24,7 @@ def do_box_sillhouette(sil_list):
     
     for f in flist:
         fname = os.path.join(directory, f); print(fname)
-        sil_list.append( iu.box_sillhouette(fname, show=False))
+        sil_list.append( iu.box_sillhouette(fname, show=True))
     return
     
 def do_analytics(sil_list):
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     
     #do_video2frames()
     do_box_sillhouette(sil_list)
-    do_analytics(sil_list)
+    #do_analytics(sil_list)
     
     
 
