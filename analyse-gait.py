@@ -24,7 +24,7 @@ def do_box_sillhouette(sil_list):
     
     for f in flist:
         fname = os.path.join(directory, f); print(fname)
-        sil_list.append( iu.box_sillhouette(fname, show=True))
+        sil_list.append( iu.box_sillhouette(fname, show=False))
     return
     
 def do_analytics(sil_list):
