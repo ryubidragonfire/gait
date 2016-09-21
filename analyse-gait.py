@@ -3,6 +3,9 @@
 Created on Wed Sep 14 15:19:47 2016
 
 @author: chyam
+
+Purpose: Extract moving human sillhouette from a video sequence. 
+
 """
 
 from __future__ import print_function
